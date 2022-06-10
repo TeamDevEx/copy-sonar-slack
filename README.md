@@ -1,1 +1,1 @@
-# cdo-actions-sonarqube-slack-integration
+# Sonarqube Slack Integration

@@ -1,0 +1,23 @@
+# For basic schema validation, install RedHat YAML VScode Extension (https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: SonarQube Slack Integration Test
+on:
+  workflow_dispatch:
+
+jobs:
+  sonarqube-slack-integration:
+    name: SonarQube Slack Integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: "cdo-actions-sonarqube-slack-integration"
+
+      - name: Run SonarQube Slack Integration
+        uses: ./cdo-actions-sonarqube-slack-integration/
+        with:
+          token: ${{ secrets.SECRET_PAT }}
+          slackToken: ${{ secrets.SLACK_BOT_TOKEN }}
+          channelID: 'C03J3NLDDB4'
