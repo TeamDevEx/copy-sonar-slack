@@ -4,9 +4,6 @@
 name: 'Sonarqube Slack Integration'
 description: 'Post SonarQube Quality Gate results to Slack channel'
 inputs:
-  token: 
-    description: 'A personal access token to access GitHub Checks API.'
-    required: true
   slackToken:
     description: 'A token to allow the use of the EP Slack Bot.'
     required: true
@@ -23,17 +20,15 @@ runs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
-    - name: Generate SonarQube Qualit Gate Slack message
+    - name: Generate SonarQube Quality Gate Slack message
       id: sq_slack_msg
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
       shell: bash
       run: node ${{github.action_path}}/dist/index.mjs
-    - name: Post to slack
-      uses: slackapi/slack-github-action@v1.18.0
-      with:
-        channel-id: ${{ inputs.channelID }}
-        payload: |
-          ${{ steps.sq_slack_msg.outputs.slack-msg-payload }}
-      env:
-        SLACK_BOT_TOKEN: ${{ inputs.slackToken }}
+    # - name: Post to slack
+    #   uses: slackapi/slack-github-action@v1.18.0
+    #   with:
+    #     channel-id: ${{ inputs.channelID }}
+    #     payload: |
+    #       ${{ steps.sq_slack_msg.outputs.slack-msg-payload }}
+    #   env:
+    #     SLACK_BOT_TOKEN: ${{ inputs.slackToken }}
