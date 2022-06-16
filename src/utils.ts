@@ -64,3 +64,27 @@ export function getCodeSmellInfo(str: string): string {
     const grade = getGrades(str)[3];
     return `<${link}|:sq-code-smell:> <${link}|:sq-${grade}:> <${link}|${num}>`;
 }
+
+export function getCoverageDuplicationTitle(str: string): string {
+    const title = str.match(/Coverage and Duplication(s*)/g);
+    if (title === null) { return ""; }
+    return title[0];
+}
+
+export function getCoverageInfo(str: string): string {
+    const info = str.match(/(\(https:\/\/sonarqube\.cloudapps\.telus\.com\/component_measures|\[\d+\.\d+% Coverage\]).*/g);
+    if (info === null) { return ""; }
+    const covInfo = info[0].replace(/\].*view=list\) /g, ' ').replace('  ', '').replace('[', '');
+    const link = covInfo.match(/\(.*\) /g)![0].replace(' ', '').replace('(', '').replace(')', '');
+    const msg = covInfo.match(/(No|\d+\.\d+%).*/g)![0];
+    return `<${link}|${msg}>`
+}
+
+export function getDuplicationInfo(str: string): string {
+    const info = str.match(/\(https:\/\/sonarqube\.cloudapps\.telus\.com(.*)metric=(.*)duplicated_lines_density.*\)/g);
+    if (info === null) { return ""; }
+    const duplicationInfo = info[0].replace(/\].*view=list\) /g, ' ').replace('  ', '').replace('[', '');
+    const link = duplicationInfo.match(/\(.*\) /g)![0].replace(' ', '').replace('(', '').replace(')', '');
+    const msg = duplicationInfo.match(/(No|\d+\.\d+%).*/g)![0];
+    return `<${link}|${msg}>`
+}

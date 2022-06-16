@@ -3,6 +3,17 @@ import * as core from '@actions/core';
 import * as utils from "./utils";
 
 function main() {
+    // Getting summary markdown of quality gate results and making it Slack compatible
+    const sq_qg_summary: string = utils.makeSlackCompatible(context.payload.check_run.output.summary);
+
+    // Generate Slack message payload
+    const slackMsgPayload = createSlackMessagePayload(context.payload.check_run.output.title, context.payload.check_run.details_url, context.payload.check_run.conclusion, sq_qg_summary);
+
+    // Set action output
+    core.setOutput("slack-msg-payload", slackMsgPayload);
+}
+
+export function createSlackMessagePayload(title: string, details_url: string, conclusion: string, sq_qg_summary: string): Object {
     // Slack message payload
     const divider = {
         type: "divider",
@@ -13,16 +24,13 @@ function main() {
                 type: "header",
                 text: {
                     type: "plain_text",
-                    text: `${context.payload.check_run.output.title}`,
+                    text: `${title}`,
                     emoji: true,
                 },
             },
         ],
     };
     slack_payload.blocks.push(divider);
-
-    // Getting summary markdown of quality gate results and making it Slack compatible
-    let sq_qg_summary: string = utils.makeSlackCompatible(context.payload.check_run.output.summary);
 
     // Creating block for quality gate results
     const qg_status_link = {
@@ -39,14 +47,14 @@ function main() {
                 emoji: true,
             },
             value: "qg_results",
-            url: `${context.payload.check_run.details_url}`,
+            url: `${details_url}`,
             action_id: "button-action",
         },
     };
-    if (context.payload.check_run.conclusion === "success") {
+    if (conclusion === "success") {
         qg_status_link.text.text = "*SonarQube Quality Gate Results:*"
         qg_status_link.accessory.text.text = ":white_check_mark: Passed";
-    } else if (context.payload.check_run.conclusion === "failure") {
+    } else if (conclusion === "failure") {
         const failedCovMsg = utils.getFailedCoverageMsg(sq_qg_summary);
         qg_status_link.text.text = failedCovMsg;
         qg_status_link.accessory.text.text = ":x: Failed";
@@ -98,8 +106,28 @@ function main() {
     };
     slack_payload.blocks.push(issuesBody);
 
-    core.info(JSON.stringify(slack_payload));
-    core.setOutput("slack-msg-payload", slack_payload);
+    // Create Coverage and Duplications section 
+    const covDupHeader = {
+        type: "header",
+        text: {
+            type: "plain_text",
+            text: "",
+            emoji: true,
+        },
+    };
+    covDupHeader.text.text = utils.getCoverageDuplicationTitle(sq_qg_summary);
+    slack_payload.blocks.push(covDupHeader);
+
+    const covDupBody = {
+        type: "section",
+        text: {
+            type: "mrkdwn",
+            text: `${utils.getCoverageInfo(sq_qg_summary)}\n${utils.getDuplicationInfo(sq_qg_summary)}`,
+        },
+    };
+    slack_payload.blocks.push(covDupBody);
+
+    return slack_payload;
 }
 
 try {

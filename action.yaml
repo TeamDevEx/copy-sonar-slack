@@ -24,11 +24,11 @@ runs:
       id: sq_slack_msg
       shell: bash
       run: node ${{github.action_path}}/dist/index.mjs
-    # - name: Post to slack
-    #   uses: slackapi/slack-github-action@v1.18.0
-    #   with:
-    #     channel-id: ${{ inputs.channelID }}
-    #     payload: |
-    #       ${{ steps.sq_slack_msg.outputs.slack-msg-payload }}
-    #   env:
-    #     SLACK_BOT_TOKEN: ${{ inputs.slackToken }}
+    - name: Post to slack
+      uses: slackapi/slack-github-action@v1.18.0
+      with:
+        channel-id: ${{ inputs.channelID }}
+        payload: |
+          ${{ steps.sq_slack_msg.outputs.slack-msg-payload }}
+      env:
+        SLACK_BOT_TOKEN: ${{ inputs.slackToken }}

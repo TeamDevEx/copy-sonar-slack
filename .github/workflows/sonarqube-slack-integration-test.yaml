@@ -3,11 +3,13 @@
 
 name: SonarQube Slack Integration Test
 on:
-  workflow_dispatch:
+  check_run:
+    type: ['completed']
 
 jobs:
   sonarqube-slack-integration:
     name: SonarQube Slack Integration
+    if: github.event.check_run.app.name == 'sonarqube-telus-swe-np'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

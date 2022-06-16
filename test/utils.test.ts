@@ -1,5 +1,7 @@
-import passed from "./responses/passed";
-import failed from "./responses/failed";
+import passed from "./responses/passedSummary";
+import passed2 from "./responses/passed2Summary";
+import passed3 from "./responses/passed3Summary";
+import failed from "./responses/failedSummary";
 import * as utils from "../src/utils";
 
 test('replacing all <, >, and & in passed string', () => {
@@ -62,4 +64,52 @@ test('constructing markdown string for security hotspots issue section', () => {
 test('constructing markdown string for code smell issue section', () => {
     const expectedMarkdown = "<https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&pullRequest=141&resolved=false&types=CODE_SMELL|:sq-code-smell:> <https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&pullRequest=141&resolved=false&types=CODE_SMELL|:sq-a:> <https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&pullRequest=141&resolved=false&types=CODE_SMELL|1 Code Smell>";
     expect(utils.getCodeSmellInfo(failed)).toBe(expectedMarkdown);
+});
+
+test('getting coverage and duplication section title', () => {
+    expect(utils.getCoverageDuplicationTitle(passed)).toBe("Coverage and Duplications");
+});
+
+test('getting coverage and duplication section title again', () => {
+    expect(utils.getCoverageDuplicationTitle(failed)).toBe("Coverage and Duplications");
+});
+
+test('getting coverage information: failed scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&pullRequest=141&metric=new_coverage&view=list|0.0% Coverage (15.2% Estimated after merge)>";
+    expect(utils.getCoverageInfo(failed)).toBe(expectedText);
+});
+
+test('getting coverage information: passed scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=unicorn-run-frontend&pullRequest=112|No Coverage information>";
+    expect(utils.getCoverageInfo(passed)).toBe(expectedText);
+});
+
+test('getting coverage information: passed2 scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&pullRequest=165&metric=coverage&view=list|No Coverage information (14.7% Estimated after merge)>";
+    expect(utils.getCoverageInfo(passed2)).toBe(expectedText);
+});
+
+test('getting coverage information: passed3 scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&pullRequest=161&metric=new_coverage&view=list|0.0% Coverage (14.7% Estimated after merge)>";
+    expect(utils.getCoverageInfo(passed3)).toBe(expectedText);
+});
+
+test('getting duplication information: failed scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&pullRequest=141&metric=new_duplicated_lines_density&view=list|0.0% Duplication (0.0% Estimated after merge)>";
+    expect(utils.getDuplicationInfo(failed)).toBe(expectedText);
+});
+
+test('getting duplication information: passed scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=unicorn-run-frontend&pullRequest=112&metric=duplicated_lines_density&view=list|No Duplication information (0.0% Estimated after merge)>";
+    expect(utils.getDuplicationInfo(passed)).toBe(expectedText);
+});
+
+test('getting duplication information: passed2 scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&pullRequest=165&metric=duplicated_lines_density&view=list|No Duplication information (0.0% Estimated after merge)>";
+    expect(utils.getDuplicationInfo(passed2)).toBe(expectedText);
+});
+
+test('getting duplication information: passed3 scenario', () => {
+    const expectedText = "<https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&pullRequest=161&metric=new_duplicated_lines_density&view=list|0.0% Duplication (0.0% Estimated after merge)>";
+    expect(utils.getDuplicationInfo(passed3)).toBe(expectedText);
 });
