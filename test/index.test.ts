@@ -8,22 +8,24 @@ import passed2Payload from "./slack_msg_payloads/passed2Payload";
 import passed3Payload from "./slack_msg_payloads/passed3Payload";
 import { createSlackMessagePayload } from "../src/index";
 
-test('slack message payload generation for failed quality gate', () => {
-    const slackPayload = createSlackMessagePayload('Quality Gate failed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=141', 'failure', failed);
-    expect(slackPayload).toStrictEqual(failedPayload);
-});
-
-test('slack message payload generation for passed quality gate', () => {
-    const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=unicorn-run-frontend&pullRequest=112', 'success', passed);
-    expect(slackPayload).toStrictEqual(passedPayload);
-});
-
-test('slack message payload generation for passed2 quality gate', () => {
-    const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=165', 'success', passed2);
-    expect(slackPayload).toStrictEqual(passed2Payload);
-});
-
-test('slack message payload generation for passed3 quality gate', () => {
-    const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=161', 'success', passed3);
-    expect(slackPayload).toStrictEqual(passed3Payload);
+describe("createSlackMessagePayload", () => {
+    it('should return a Slack message payload resembling failed quality gate when given a failed quality gate summary', () => {
+        const slackPayload = createSlackMessagePayload('Quality Gate failed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=141', 'failure', failed);
+        expect(slackPayload).toStrictEqual(failedPayload);
+    });
+    
+    it('should return a Slack message payload resembling a successful quality gate when given a successful quality gate summary', () => {
+        const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=unicorn-run-frontend&pullRequest=112', 'success', passed);
+        expect(slackPayload).toStrictEqual(passedPayload);
+    });
+    
+    it('should return a Slack message payload resembling a successful quality gate when given a successful quality gate summary (different coverage and duplication structure)', () => {
+        const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=165', 'success', passed2);
+        expect(slackPayload).toStrictEqual(passed2Payload);
+    });
+    
+    it('should return a Slack message payload resembling a successful quality gate when given a successful quality gate summary (another different coverage and duplication structure)', () => {
+        const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=161', 'success', passed3);
+        expect(slackPayload).toStrictEqual(passed3Payload);
+    });
 });
