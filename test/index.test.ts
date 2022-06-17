@@ -10,20 +10,20 @@ import { createSlackMessagePayload } from "../src/index";
 
 test('slack message payload generation for failed quality gate', () => {
     const slackPayload = createSlackMessagePayload('Quality Gate failed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=141', 'failure', failed);
-    expect(JSON.stringify(slackPayload)).toBe(JSON.stringify(failedPayload));
+    expect(slackPayload).toStrictEqual(failedPayload);
 });
 
 test('slack message payload generation for passed quality gate', () => {
     const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=unicorn-run-frontend&pullRequest=112', 'success', passed);
-    expect(JSON.stringify(slackPayload)).toBe(JSON.stringify(passedPayload));
+    expect(slackPayload).toStrictEqual(passedPayload);
 });
 
 test('slack message payload generation for passed2 quality gate', () => {
     const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=165', 'success', passed2);
-    expect(JSON.stringify(slackPayload)).toBe(JSON.stringify(passed2Payload));
+    expect(slackPayload).toStrictEqual(passed2Payload);
 });
 
 test('slack message payload generation for passed3 quality gate', () => {
     const slackPayload = createSlackMessagePayload('Quality Gate passed', 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=161', 'success', passed3);
-    expect(JSON.stringify(slackPayload)).toBe(JSON.stringify(passed3Payload));
+    expect(slackPayload).toStrictEqual(passed3Payload);
 });
