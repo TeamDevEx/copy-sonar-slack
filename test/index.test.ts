@@ -7,7 +7,6 @@ import passedPayload from "./slack_msg_payloads/passedPayload";
 import passed2Payload from "./slack_msg_payloads/passed2Payload";
 import passed3Payload from "./slack_msg_payloads/passed3Payload";
 import { createSlackMessagePayload } from "../src/index";
-import { makeSlackCompatible } from "../src/utils";
 import { SQinfo } from "../src/SQinfo";
 
 describe("createSlackMessagePayload", () => {
@@ -16,7 +15,7 @@ describe("createSlackMessagePayload", () => {
             title: 'Quality Gate failed',
             details_url: 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=141',
             conclusion: 'failure',
-            sq_qg_summary: makeSlackCompatible(failed)
+            sq_qg_summary: failed
         }
         const slackPayload = createSlackMessagePayload(sq_qg_info);
         expect(slackPayload).toStrictEqual(failedPayload);
@@ -27,7 +26,7 @@ describe("createSlackMessagePayload", () => {
             title: 'Quality Gate passed',
             details_url: 'https://sonarqube.cloudapps.telus.com/dashboard?id=unicorn-run-frontend&pullRequest=112',
             conclusion: 'success',
-            sq_qg_summary: makeSlackCompatible(passed)
+            sq_qg_summary: passed
         }
         const slackPayload = createSlackMessagePayload(sq_qg_info);
         expect(slackPayload).toStrictEqual(passedPayload);
@@ -38,7 +37,7 @@ describe("createSlackMessagePayload", () => {
             title: 'Quality Gate passed',
             details_url: 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=165',
             conclusion: 'success',
-            sq_qg_summary: makeSlackCompatible(passed2)
+            sq_qg_summary: passed2
         }
         const slackPayload = createSlackMessagePayload(sq_qg_info);
         expect(slackPayload).toStrictEqual(passed2Payload);
@@ -49,7 +48,7 @@ describe("createSlackMessagePayload", () => {
             title: 'Quality Gate passed',
             details_url: 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=161',
             conclusion: 'success',
-            sq_qg_summary: makeSlackCompatible(passed3)
+            sq_qg_summary: passed3
         }
         const slackPayload = createSlackMessagePayload(sq_qg_info);
         expect(slackPayload).toStrictEqual(passed3Payload);

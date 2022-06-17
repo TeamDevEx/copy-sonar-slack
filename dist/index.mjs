@@ -86643,9 +86643,6 @@ function requireCore () {
 
 var coreExports = requireCore();
 
-function makeSlackCompatible(str) {
-    return str.replace(/&/g, "&amp").replace(/</g, "&lt").replace(/>/g, "&gt");
-}
 function getFailedCoverageMsg(str) {
     const res = str.match(/(\d+\.\d+)% Coverage on New Code \(is less than \d+%\)/g);
     if (res === null) {
@@ -90817,7 +90814,7 @@ function main() {
         title: context$1.payload.check_run.output.title,
         details_url: context$1.payload.check_run.details_url,
         conclusion: context$1.payload.check_run.conclusion,
-        sq_qg_summary: makeSlackCompatible(context$1.payload.check_run.output.summary)
+        sq_qg_summary: context$1.payload.check_run.output.summary
     };
     // Generate Slack message payload
     const slackMsgPayload = createSlackMessagePayload(sq_qg_info);

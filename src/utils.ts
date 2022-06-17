@@ -1,7 +1,3 @@
-export function makeSlackCompatible(str: string): string {
-    return str.replace(/&/g, "&amp").replace(/</g, "&lt").replace(/>/g, "&gt");
-}
-
 export function getFailedCoverageMsg(str: string): string {
     const res = str.match(/(\d+\.\d+)% Coverage on New Code \(is less than \d+%\)/g);
     if (res === null) { return ""; }

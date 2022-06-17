@@ -4,57 +4,6 @@ import passed3 from "./responses/passed3Summary";
 import failed from "./responses/failedSummary";
 import * as utils from "../src/utils";
 
-describe("makeSlackCompatible", () => {
-    it("should replace &, <, and > in a successful quality gate summary with &amp, &lt, and &gt respectively when the string has them", () => {
-        const expectedVal = `[![Quality Gate passed](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/QualityGateBadge/passed.svg 'Quality Gate passed')](https://sonarqube.cloudapps.telus.com/dashboard?id=unicorn-run-frontend&amppullRequest=112)
-
-
-## Additional information
-
-*The following metrics might not affect the Quality Gate status but improving*  
-*them will improve your project code quality and security.*
-
-### 0 Issues
-
-[![Bug](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/bug.svg 'Bug')](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=BUG) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=BUG) [0 Bugs](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=BUG)  
-[![Vulnerability](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/vulnerability.svg 'Vulnerability')](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=VULNERABILITY) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=VULNERABILITY) [0 Vulnerabilities](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=VULNERABILITY)  
-[![Security Hotspot](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/security_hotspot.svg 'Security Hotspot')](https://sonarqube.cloudapps.telus.com/security_hotspots?id=unicorn-run-frontend&amppullRequest=112) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/security_hotspots?id=unicorn-run-frontend&amppullRequest=112) [0 Security Hotspots](https://sonarqube.cloudapps.telus.com/security_hotspots?id=unicorn-run-frontend&amppullRequest=112)  
-[![Code Smell](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/code_smell.svg 'Code Smell')](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=CODE_SMELL) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=CODE_SMELL) [0 Code Smells](https://sonarqube.cloudapps.telus.com/project/issues?id=unicorn-run-frontend&amppullRequest=112&ampresolved=false&amptypes=CODE_SMELL)
-
-### Coverage and Duplications
-
-[![No Coverage information](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/CoverageChart/NoCoverageInfo.svg 'No Coverage information')](https://sonarqube.cloudapps.telus.com/component_measures?id=unicorn-run-frontend&amppullRequest=112) No Coverage information  
-[![No Duplication information](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/Duplications/NoDuplicationInfo.svg 'No Duplication information')](https://sonarqube.cloudapps.telus.com/component_measures?id=unicorn-run-frontend&amppullRequest=112&ampmetric=duplicated_lines_density&ampview=list) No Duplication information (0.0% Estimated after merge)\n\n`;
-        expect(utils.makeSlackCompatible(passed)).toBe(expectedVal);
-    });
-
-    it("should replace &, <, and > in a failed quality gate summary with &amp, &lt, and &gt respectively when the string has them", () => {
-        const expectedVal = `[![Quality Gate failed](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/QualityGateBadge/failed.svg 'Quality Gate failed')](https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&amppullRequest=141)
-
-[![Failed condition](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/FailedConditionIcon.svg 'Failed condition')](https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&amppullRequest=141) [![0.0%](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/CoverageChart/0.svg '0.0%')](https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&amppullRequest=141) 0.0% Coverage on New Code (is less than 80%)  
-
-[See analysis details on SonarQube](https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&amppullRequest=141)
-
-## Additional information
-
-*The following metrics might not affect the Quality Gate status but improving*  
-*them will improve your project code quality and security.*
-
-### 1 Issue
-
-[![Bug](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/bug.svg 'Bug')](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=BUG) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=BUG) [0 Bugs](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=BUG)  
-[![Vulnerability](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/vulnerability.svg 'Vulnerability')](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=VULNERABILITY) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=VULNERABILITY) [0 Vulnerabilities](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=VULNERABILITY)  
-[![Security Hotspot](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/security_hotspot.svg 'Security Hotspot')](https://sonarqube.cloudapps.telus.com/security_hotspots?id=wireless-subscription-gql&amppullRequest=141) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/security_hotspots?id=wireless-subscription-gql&amppullRequest=141) [0 Security Hotspots](https://sonarqube.cloudapps.telus.com/security_hotspots?id=wireless-subscription-gql&amppullRequest=141)  
-[![Code Smell](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/common/code_smell.svg 'Code Smell')](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=CODE_SMELL) [![A](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/RatingBadge/A.svg 'A')](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=CODE_SMELL) [1 Code Smell](https://sonarqube.cloudapps.telus.com/project/issues?id=wireless-subscription-gql&amppullRequest=141&ampresolved=false&amptypes=CODE_SMELL)
-
-### Coverage and Duplications
-
-[![0.0%](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/CoverageChart/0.svg '0.0%')](https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&amppullRequest=141&ampmetric=new_coverage&ampview=list) [0.0% Coverage](https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&amppullRequest=141&ampmetric=new_coverage&ampview=list) (15.2% Estimated after merge)  
-[![0.0%](https://raw.githubusercontent.com/SonarSource/sonarqube-static-resources/master/v86/checks/Duplications/3.svg '0.0%')](https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&amppullRequest=141&ampmetric=new_duplicated_lines_density&ampview=list) [0.0% Duplication](https://sonarqube.cloudapps.telus.com/component_measures?id=wireless-subscription-gql&amppullRequest=141&ampmetric=new_duplicated_lines_density&ampview=list) (0.0% Estimated after merge)\n\n`;
-        expect(utils.makeSlackCompatible(failed)).toBe(expectedVal);
-    });
-});
-
 describe("getFailedCoverageMsg", () => {
     it('should return a string about the coverage on new code when given a failed quality gate summary', () => {
         const expectedVal = "0.0% Coverage on New Code (is less than 80%)";

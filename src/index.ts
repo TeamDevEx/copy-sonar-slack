@@ -16,9 +16,7 @@ function main() {
     title: context.payload.check_run.output.title,
     details_url: context.payload.check_run.details_url,
     conclusion: context.payload.check_run.conclusion,
-    sq_qg_summary: utils.makeSlackCompatible(
-      context.payload.check_run.output.summary
-    )
+    sq_qg_summary: context.payload.check_run.output.summary
   };
 
   // Generate Slack message payload
