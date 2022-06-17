@@ -31,8 +31,12 @@ export function createSlackMessagePayload(info: SQinfo): Object {
     throw new Error("Something went wrong! SonarQube Code Analysis did not pass or fail.");
   }
 
+  const msgTitle = info.title.split(" ").map((word) => {
+    return word[0].toUpperCase() + word.substring(1);
+  }).join(" ");
+
   return Message().blocks(
-    Header({ text: `${info.title}` }),
+    Header({ text: `${msgTitle}` }),
     Divider(),
     info.conclusion === "success"
       ? Section({ text: "*SonarQube Quality Gate Results:*" }).accessory(

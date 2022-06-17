@@ -7,7 +7,7 @@ import {
 } from "slack-block-builder";
 
 const failedPayload = Message().blocks(
-    Header({ text: "Quality Gate failed" }),
+    Header({ text: "Quality Gate Failed" }),
     Divider(),
     Section({ text: "0.0% Coverage on New Code (is less than 80%)" }).accessory(
         Button({ text: ":x: Failed", url: "https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=141", value: "qg_results", actionId: "button-action" })),

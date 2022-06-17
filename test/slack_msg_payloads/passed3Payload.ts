@@ -7,7 +7,7 @@ import {
 } from "slack-block-builder";
 
 const passed3Payload = Message().blocks(
-    Header({ text: "Quality Gate passed" }),
+    Header({ text: "Quality Gate Passed" }),
     Divider(),
     Section({ text: "*SonarQube Quality Gate Results:*" }).accessory(
         Button({ text: ":white_check_mark: Passed", url: "https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=161", value: "qg_results", actionId: "button-action" })),
