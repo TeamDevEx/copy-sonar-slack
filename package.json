@@ -5,7 +5,7 @@
   "description": "Post SonarQube Quality Gate results to Slack channel",
   "scripts": {
     "build": "rollup -c",
-    "start": "yarn build && act workflow_dispatch -W .github/workflows/sonarqube-slack-integration-test.yaml",
+    "start": "yarn build && act check_run -W .github/workflows/sonarqube-slack-integration-test.yaml --eventpath test-check-run-payload.json",
     "test": "jest"
   },
   "devDependencies": {

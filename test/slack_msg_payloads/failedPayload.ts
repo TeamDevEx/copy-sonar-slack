@@ -11,7 +11,6 @@ const failedPayload = Message().blocks(
     Divider(),
     Section({ text: "0.0% Coverage on New Code (is less than 80%)" }).accessory(
         Button({ text: ":x: Failed", url: "https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=141", value: "qg_results", actionId: "button-action" })),
-    Divider(),
     Header({ text: "Additional Information" }),
     Divider(),
     Section({ text: "_The following metrics might not affect the Quality Gate status but improving  them will improve your project code quality and security._" }),

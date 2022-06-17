@@ -41,7 +41,6 @@ export function createSlackMessagePayload(info: SQinfo): Object {
           Button({ text: ":white_check_mark: Passed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" }))
       : Section({ text: utils.getFailedCoverageMsg(info.sq_qg_summary) }).accessory(
         Button({ text: ":x: Failed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" })),
-    Divider(),
     Header({ text: "Additional Information" }),
     Divider(),
     Section({ text: `_${utils.getAdditionalInfoBody(info.sq_qg_summary)}_` }),

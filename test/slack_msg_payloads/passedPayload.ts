@@ -11,7 +11,6 @@ const passedPayload = Message().blocks(
     Divider(),
     Section({ text: "*SonarQube Quality Gate Results:*" }).accessory(
         Button({ text: ":white_check_mark: Passed", url: "https://sonarqube.cloudapps.telus.com/dashboard?id=unicorn-run-frontend&pullRequest=112", value: "qg_results", actionId: "button-action" })),
-    Divider(),
     Header({ text: "Additional Information" }),
     Divider(),
     Section({ text: "_The following metrics might not affect the Quality Gate status but improving  them will improve your project code quality and security._" }),
