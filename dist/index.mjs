@@ -90825,7 +90825,10 @@ function createSlackMessagePayload(info) {
     if (!(info.conclusion === "success" || info.conclusion === "failure")) {
         throw new Error("Something went wrong! SonarQube Code Analysis did not pass or fail.");
     }
-    return dist.Message().blocks(dist.Header({ text: `${info.title}` }), dist.Divider(), info.conclusion === "success"
+    const msgTitle = info.title.split(" ").map((word) => {
+        return word[0].toUpperCase() + word.substring(1);
+    }).join(" ");
+    return dist.Message().blocks(dist.Header({ text: `${msgTitle}` }), dist.Divider(), info.conclusion === "success"
         ? dist.Section({ text: "*SonarQube Quality Gate Results:*" }).accessory(dist.Button({ text: ":white_check_mark: Passed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" }))
         : dist.Section({ text: getFailedCoverageMsg(info.sq_qg_summary) }).accessory(dist.Button({ text: ":x: Failed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" })), dist.Header({ text: "Additional Information" }), dist.Divider(), dist.Section({ text: `_${getAdditionalInfoBody(info.sq_qg_summary)}_` }), dist.Header({ text: `${getIssuesTitle(info.sq_qg_summary)}` }), dist.Section({ text: `${getBugInfo(info.sq_qg_summary)}\n${getVulnerabilitiesInfo(info.sq_qg_summary)}\n${getSecurityInfo(info.sq_qg_summary)}\n${getCodeSmellInfo(info.sq_qg_summary)}` }), dist.Header({ text: `${getCoverageDuplicationTitle(info.sq_qg_summary)}` }), dist.Section({ text: `${getCoverageInfo(info.sq_qg_summary)}\n${getDuplicationInfo(info.sq_qg_summary)}` })).buildToObject();
 }
