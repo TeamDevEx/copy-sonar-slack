@@ -1,19 +1,25 @@
 import { context } from '@actions/github';
 import * as core from '@actions/core';
 import * as utils from "./utils";
+import { SQinfo } from './SQinfo';
 
 function main() {
-    // Getting summary markdown of quality gate results and making it Slack compatible
-    const sq_qg_summary: string = utils.makeSlackCompatible(context.payload.check_run.output.summary);
+    // Creating the SQinfo object
+    const sq_qg_info: SQinfo = {
+        title: context.payload.check_run.output.title,
+        details_url: context.payload.check_run.details_url,
+        conclusion: context.payload.check_run.conclusion,
+        sq_qg_summary: utils.makeSlackCompatible(context.payload.check_run.output.summary)
+    }
 
     // Generate Slack message payload
-    const slackMsgPayload = createSlackMessagePayload(context.payload.check_run.output.title, context.payload.check_run.details_url, context.payload.check_run.conclusion, sq_qg_summary);
+    const slackMsgPayload = createSlackMessagePayload(sq_qg_info);
 
     // Set action output
     core.setOutput("slack-msg-payload", slackMsgPayload);
 }
 
-export function createSlackMessagePayload(title: string, details_url: string, conclusion: string, sq_qg_summary: string): Object {
+export function createSlackMessagePayload(info: SQinfo): Object {
     // Slack message payload
     const divider = {
         type: "divider",
@@ -24,7 +30,7 @@ export function createSlackMessagePayload(title: string, details_url: string, co
                 type: "header",
                 text: {
                     type: "plain_text",
-                    text: `${title}`,
+                    text: `${info.title}`,
                     emoji: true,
                 },
             },
@@ -47,15 +53,15 @@ export function createSlackMessagePayload(title: string, details_url: string, co
                 emoji: true,
             },
             value: "qg_results",
-            url: `${details_url}`,
+            url: `${info.details_url}`,
             action_id: "button-action",
         },
     };
-    if (conclusion === "success") {
+    if (info.conclusion === "success") {
         qg_status_link.text.text = "*SonarQube Quality Gate Results:*"
         qg_status_link.accessory.text.text = ":white_check_mark: Passed";
-    } else if (conclusion === "failure") {
-        const failedCovMsg = utils.getFailedCoverageMsg(sq_qg_summary);
+    } else if (info.conclusion === "failure") {
+        const failedCovMsg = utils.getFailedCoverageMsg(info.sq_qg_summary);
         qg_status_link.text.text = failedCovMsg;
         qg_status_link.accessory.text.text = ":x: Failed";
     } else {
@@ -82,7 +88,7 @@ export function createSlackMessagePayload(title: string, details_url: string, co
             text: "",
         },
     };
-    additionalInfoBody.text.text = '_' + utils.getAdditionalInfoBody(sq_qg_summary) + '_';
+    additionalInfoBody.text.text = '_' + utils.getAdditionalInfoBody(info.sq_qg_summary) + '_';
     slack_payload.blocks.push(additionalInfoBody);
 
     // Creating the Issues section
@@ -94,14 +100,14 @@ export function createSlackMessagePayload(title: string, details_url: string, co
             emoji: true,
         },
     };
-    issuesHeader.text.text = utils.getIssuesTitle(sq_qg_summary);
+    issuesHeader.text.text = utils.getIssuesTitle(info.sq_qg_summary);
     slack_payload.blocks.push(issuesHeader);
 
     const issuesBody = {
         type: "section",
         text: {
             type: "mrkdwn",
-            text: `${utils.getBugInfo(sq_qg_summary)}\n${utils.getVulnerabilitiesInfo(sq_qg_summary)}\n${utils.getSecurityInfo(sq_qg_summary)}\n${utils.getCodeSmellInfo(sq_qg_summary)}`,
+            text: `${utils.getBugInfo(info.sq_qg_summary)}\n${utils.getVulnerabilitiesInfo(info.sq_qg_summary)}\n${utils.getSecurityInfo(info.sq_qg_summary)}\n${utils.getCodeSmellInfo(info.sq_qg_summary)}`,
         },
     };
     slack_payload.blocks.push(issuesBody);
@@ -115,14 +121,14 @@ export function createSlackMessagePayload(title: string, details_url: string, co
             emoji: true,
         },
     };
-    covDupHeader.text.text = utils.getCoverageDuplicationTitle(sq_qg_summary);
+    covDupHeader.text.text = utils.getCoverageDuplicationTitle(info.sq_qg_summary);
     slack_payload.blocks.push(covDupHeader);
 
     const covDupBody = {
         type: "section",
         text: {
             type: "mrkdwn",
-            text: `${utils.getCoverageInfo(sq_qg_summary)}\n${utils.getDuplicationInfo(sq_qg_summary)}`,
+            text: `${utils.getCoverageInfo(info.sq_qg_summary)}\n${utils.getDuplicationInfo(info.sq_qg_summary)}`,
         },
     };
     slack_payload.blocks.push(covDupBody);
