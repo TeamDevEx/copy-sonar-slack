@@ -19,7 +19,6 @@ describe("createSlackMessagePayload", () => {
             sq_qg_summary: makeSlackCompatible(failed)
         }
         const slackPayload = createSlackMessagePayload(sq_qg_info);
-        console.log(JSON.stringify(slackPayload));
         expect(slackPayload).toStrictEqual(failedPayload);
     });
     

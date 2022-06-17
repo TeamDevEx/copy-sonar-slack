@@ -2510,6 +2510,7 @@ __metadata:
     jest: ^28.1.1
     prettier: ^2.6.2
     rollup: ^2.75.6
+    slack-block-builder: ^2.5.0
     ts-jest: ^28.0.5
     tslib: ^2.4.0
     typescript: ^4.7.3
@@ -5055,6 +5056,13 @@ __metadata:
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
   checksum: aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
+  languageName: node
+  linkType: hard
+
+"slack-block-builder@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "slack-block-builder@npm:2.5.0"
+  checksum: f231c142e8c1a0c759a59cbaf39ccae3fe0a224fb17addd2f9cbba4c08b4a9435542ae9ba02efd7bcffa2316700c15cfe490afd1b6e3efc658c1c490b7dc7c76
   languageName: node
   linkType: hard
 
