@@ -3,7 +3,7 @@ export function getFailedCoverageMsg(str: string, detailsURL: string): string {
     const regex = new RegExp("\\(" + url + "\\)", "g");
     const res = str.match(/(.|\n)+?(?=## Additional information)/g);
     if (res === null) { return ""; }
-    const failedCovMsg = res[0].replace(/\[.*\]/g, '').replace(regex, '').trim().replace(/\r?\n/g, '').split('  ').join('\n• ');
+    const failedCovMsg = res[0].replace(/\[.*\]/g, '').replace(regex, '').trim().replace(/\r?\n/g, '').split('   ').join('\n• ');
     if (failedCovMsg === '') {
         return "";
     } else {

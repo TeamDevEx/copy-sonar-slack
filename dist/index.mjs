@@ -86650,7 +86650,7 @@ function getFailedCoverageMsg(str, detailsURL) {
     if (res === null) {
         return "";
     }
-    const failedCovMsg = res[0].replace(/\[.*\]/g, '').replace(regex, '').trim().replace(/\r?\n/g, '').split('  ').join('\n• ');
+    const failedCovMsg = res[0].replace(/\[.*\]/g, '').replace(regex, '').trim().replace(/\r?\n/g, '').split('   ').join('\n• ');
     if (failedCovMsg === '') {
         return "";
     }
