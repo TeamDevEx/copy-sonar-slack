@@ -41,11 +41,9 @@ export function createSlackMessagePayload(info: SQinfo): Object {
     info.conclusion === "success"
       ? Section({ text: "*SonarQube Quality Gate Results:*" }).accessory(
           Button({ text: ":white_check_mark: Passed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" }))
-      : Section({ text: utils.getFailedCoverageMsg(info.sq_qg_summary) }).accessory(
+      : Section({ text: `*SonarQube Quality Gate Results:*\n${utils.getFailedCoverageMsg(info.sq_qg_summary, info.details_url)}` }).accessory(
         Button({ text: ":x: Failed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" })),
-    Header({ text: "Additional Information" }),
     Divider(),
-    Section({ text: `_${utils.getAdditionalInfoBody(info.sq_qg_summary)}_` }),
     Header({ text: `${utils.getIssuesTitle(info.sq_qg_summary)}` }),
     Section({ text: `${utils.getBugInfo(
         info.sq_qg_summary

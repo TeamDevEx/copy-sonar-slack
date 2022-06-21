@@ -86643,19 +86643,20 @@ function requireCore () {
 
 var coreExports = requireCore();
 
-function getFailedCoverageMsg(str) {
-    const res = str.match(/(\d+\.\d+)% Coverage on New Code \(is less than \d+%\)/g);
+function getFailedCoverageMsg(str, detailsURL) {
+    const url = detailsURL.replace(/\//g, '\\/').replace(/\./g, '\\.').replace(/\?/g, '\\?');
+    const regex = new RegExp("\\(" + url + "\\)", "g");
+    const res = str.match(/(.|\n)+?(?=## Additional information)/g);
     if (res === null) {
         return "";
     }
-    return res[0];
-}
-function getAdditionalInfoBody(str) {
-    const body = str.match(/The.*\n.*/g);
-    if (body === null) {
+    const failedCovMsg = res[0].replace(/\[.*\]/g, '').replace(regex, '').trim().replace(/\r?\n/g, '').split('  ').join('\n• ');
+    if (failedCovMsg === '') {
         return "";
     }
-    return body[0].replace(/\*/g, '').replace('\n', '');
+    else {
+        return '• ' + failedCovMsg;
+    }
 }
 function getIssuesTitle(str) {
     const issuesHeader = str.match(/\d+ Issue(s*)/g);
@@ -90830,7 +90831,7 @@ function createSlackMessagePayload(info) {
     }).join(" ");
     return dist.Message().blocks(dist.Header({ text: `${msgTitle}` }), dist.Divider(), info.conclusion === "success"
         ? dist.Section({ text: "*SonarQube Quality Gate Results:*" }).accessory(dist.Button({ text: ":white_check_mark: Passed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" }))
-        : dist.Section({ text: getFailedCoverageMsg(info.sq_qg_summary) }).accessory(dist.Button({ text: ":x: Failed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" })), dist.Header({ text: "Additional Information" }), dist.Divider(), dist.Section({ text: `_${getAdditionalInfoBody(info.sq_qg_summary)}_` }), dist.Header({ text: `${getIssuesTitle(info.sq_qg_summary)}` }), dist.Section({ text: `${getBugInfo(info.sq_qg_summary)}\n${getVulnerabilitiesInfo(info.sq_qg_summary)}\n${getSecurityInfo(info.sq_qg_summary)}\n${getCodeSmellInfo(info.sq_qg_summary)}` }), dist.Header({ text: `${getCoverageDuplicationTitle(info.sq_qg_summary)}` }), dist.Section({ text: `${getCoverageInfo(info.sq_qg_summary)}\n${getDuplicationInfo(info.sq_qg_summary)}` })).buildToObject();
+        : dist.Section({ text: `*SonarQube Quality Gate Results:*\n${getFailedCoverageMsg(info.sq_qg_summary, info.details_url)}` }).accessory(dist.Button({ text: ":x: Failed", url: `${info.details_url}`, value: "qg_results", actionId: "button-action" })), dist.Divider(), dist.Header({ text: `${getIssuesTitle(info.sq_qg_summary)}` }), dist.Section({ text: `${getBugInfo(info.sq_qg_summary)}\n${getVulnerabilitiesInfo(info.sq_qg_summary)}\n${getSecurityInfo(info.sq_qg_summary)}\n${getCodeSmellInfo(info.sq_qg_summary)}` }), dist.Header({ text: `${getCoverageDuplicationTitle(info.sq_qg_summary)}` }), dist.Section({ text: `${getCoverageInfo(info.sq_qg_summary)}\n${getDuplicationInfo(info.sq_qg_summary)}` })).buildToObject();
 }
 try {
     main();

@@ -1,13 +1,14 @@
-export function getFailedCoverageMsg(str: string): string {
-    const res = str.match(/(\d+\.\d+)% Coverage on New Code \(is less than \d+%\)/g);
+export function getFailedCoverageMsg(str: string, detailsURL: string): string {
+    const url = detailsURL.replace(/\//g, '\\/').replace(/\./g, '\\.').replace(/\?/g, '\\?');
+    const regex = new RegExp("\\(" + url + "\\)", "g");
+    const res = str.match(/(.|\n)+?(?=## Additional information)/g);
     if (res === null) { return ""; }
-    return res[0];
-}
-
-export function getAdditionalInfoBody(str: string): string {
-    const body = str.match(/The.*\n.*/g);
-    if (body === null) { return ""; }
-    return body[0].replace(/\*/g, '').replace('\n', '');
+    const failedCovMsg = res[0].replace(/\[.*\]/g, '').replace(regex, '').trim().replace(/\r?\n/g, '').split('  ').join('\n• ');
+    if (failedCovMsg === '') {
+        return "";
+    } else {
+        return '• ' + failedCovMsg;
+    }
 }
 
 export function getIssuesTitle(str: string): string {

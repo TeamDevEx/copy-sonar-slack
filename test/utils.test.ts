@@ -6,24 +6,14 @@ import * as utils from "../src/utils";
 
 describe("getFailedCoverageMsg", () => {
     it('should return a string about the coverage on new code when given a failed quality gate summary', () => {
-        const expectedVal = "0.0% Coverage on New Code (is less than 80%)";
-        expect(utils.getFailedCoverageMsg(failed)).toBe(expectedVal);
+        const url = 'https://sonarqube.cloudapps.telus.com/dashboard?id=wireless-subscription-gql&pullRequest=141';
+        const expectedVal = "• 0.0% Coverage on New Code (is less than 80%)";
+        expect(utils.getFailedCoverageMsg(failed, url)).toBe(expectedVal);
     });
     
     it('should return an empty string when given a successful quality gate summary', () => {
-        expect(utils.getFailedCoverageMsg(passed)).toBe("");
-    });
-});
-
-describe("getAdditionalInfoBody", () => {
-    it('should return a disclaimer string about the status of the quality gate given a successful quality gate summary', () => {
-        const expectedVal = "The following metrics might not affect the Quality Gate status but improving  them will improve your project code quality and security.";
-        expect(utils.getAdditionalInfoBody(passed)).toBe(expectedVal);
-    });
-
-    it('should return a disclaimer string about the status of the quality gate given a failed quality gate summary', () => {
-        const expectedVal = "The following metrics might not affect the Quality Gate status but improving  them will improve your project code quality and security.";
-        expect(utils.getAdditionalInfoBody(failed)).toBe(expectedVal);
+        const url = 'https://sonarqube.cloudapps.telus.com/dashboard?id=unicorn-run-frontend&pullRequest=112';
+        expect(utils.getFailedCoverageMsg(passed, url)).toBe("");
     });
 });
 
