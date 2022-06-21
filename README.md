@@ -7,6 +7,10 @@ This action posts a Slack message in a specific channel to provide information a
 
 ## Prerequisites :construction:
 
+1. The SonarQube project associated with your GitHub repository needs to have the ability to report your Quality Gate status to GitHub pull requests and branches. To do so, set the following project settings at **Project Settings -> General Settings -> DevOps Platform Integration**:
+    - `Configuration name`: The configuration name that corresponds to your GitHub instance.
+    - `Repository identifier`: The path of your repository URL.
+2. A workflow under `.github/workflows` that does a static code analysis using SonarQube. An example can be found [HERE](https://github.com/telus/cdo-eptoolshelper-pali/tree/main/Actions/examples/sonarqube) based on your project language. Another example can be found [HERE](https://github.com/telus/unicorn-run-frontend/blob/main/.github/workflows/code-analysis.yaml) which includes linting and generating your test results before performing static code analysis in the same workflow.
 
 ## How to use this aaction? :compass:
 
@@ -18,7 +22,7 @@ This action posts a Slack message in a specific channel to provide information a
 - `slack-msg-payload`: A Slack message object (formatted using the slack-block-builder package) containing the results of the Quality Gate.
 
 ### Usage :memo:
-Replace the placeholder value for `channelID` to one that fits your use case and change `SLACK_BOT_TOKEN` to the name of your repository secret that stores your Slack bot token.
+To use this action, create a separate workflow YAML file under `.github/workflows` that has the content shown below. Replace the placeholder value for `channelID` to one that fits your use case and change `SLACK_BOT_TOKEN` to the name of your repository secret that stores your Slack bot token. The names and IDs of the workflow, job, and/or steps can be changed to your liking. 
 
 ``` yaml
 name: SonarQube Slack Integration
@@ -27,14 +31,14 @@ on:
     type: ['completed']
 
 jobs: 
-    job_id:
-        # ...
+    sonarqube-slack-integration:
+      name: SonarQube Slack Integration
+      if: github.event.check_run.app.name == 'sonarqube-telus-swe-np'
+      runs-on: ubuntu-latest
         steps:
-        # ...
         - name: Run SonarQube Slack Integration
           uses: telus/cdo-actions-sonarqube-slack-integration@v1
           with:
             slackToken: ${{ secrets.SLACK_BOT_TOKEN }}
             channelID: '<channelID>'
-        # ...
 ```
