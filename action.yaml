@@ -1,0 +1,34 @@
+# For basic schema validation, install RedHat YAML VScode Extension (https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+# yaml-language-server: $schema=https://json.schemastore.org/github-action
+
+name: 'Sonarqube Slack Integration'
+description: 'Post SonarQube Quality Gate results to Slack channel'
+inputs:
+  slackToken:
+    description: 'A token to allow the use of the EP Slack Bot.'
+    required: true
+  channelID:
+    description: 'ID of the channel the update should be posted in.'
+    required: true
+outputs:
+  slack-msg-payload:
+    description: 'SonarQube Quality Gate Slack message payload'
+    value: ${{ steps.sq_slack_msg.outputs.slack-msg-payload }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Generate SonarQube Quality Gate Slack message
+      id: sq_slack_msg
+      shell: bash
+      run: node ${{github.action_path}}/dist/index.mjs
+    - name: Post to slack
+      uses: slackapi/slack-github-action@v1.18.0
+      with:
+        channel-id: ${{ inputs.channelID }}
+        payload: |
+          ${{ steps.sq_slack_msg.outputs.slack-msg-payload }}
+      env:
+        SLACK_BOT_TOKEN: ${{ inputs.slackToken }}
