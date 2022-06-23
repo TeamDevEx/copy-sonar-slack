@@ -4,7 +4,7 @@
 name: SonarQube Slack Integration Test
 on:
   check_run:
-    type: ['completed']
+    types: [completed]
 
 jobs:
   sonarqube-slack-integration:

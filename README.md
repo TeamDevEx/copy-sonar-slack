@@ -8,6 +8,7 @@ This action posts a Slack message in a specific channel to provide information a
     - `Configuration name`: The configuration name that corresponds to your GitHub instance.
     - `Repository identifier`: The path of your repository URL.
 2. A workflow under `.github/workflows` that does a static code analysis using SonarQube. An example can be found [HERE](https://github.com/telus/cdo-eptoolshelper-pali/tree/main/Actions/examples/sonarqube) based on your project language. Another example can be found [HERE](https://github.com/telus/unicorn-run-frontend/blob/main/.github/workflows/code-analysis.yaml) which includes linting and generating your test results before performing static code analysis in the same workflow.
+3. Follow the instructions outlined [HERE](https://github.com/telus/security/tree/main/tools/sonarqube#pull-request-analysis-and-github-pr-decoration) to setup pull request analysis and GitHub PR decoration.
 
 ## How it works? :gear:
 
