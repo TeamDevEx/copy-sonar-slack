@@ -4,7 +4,7 @@ This action posts a Slack message in a specific channel to provide information a
 
 ## Prerequisites :construction:
 
-1. The SonarQube project associated with your GitHub repository needs to have the ability to report your Quality Gate status to GitHub pull requests and branches. To do so, set the following project settings at **Project Settings -> General Settings -> DevOps Platform Integration**:
+1. The SonarQube project associated with your GitHub repository needs to have the ability to report your Quality Gate status to GitHub pull requests and branches. To do so, set the following project settings at **Project Settings -> General Settings -> Pull Request Decoration**:
     - `Configuration name`: The configuration name that corresponds to your GitHub instance.
     - `Repository identifier`: The path of your repository URL.
 2. A workflow under `.github/workflows` that does a static code analysis using SonarQube. An example can be found [HERE](https://github.com/telus/cdo-eptoolshelper-pali/tree/main/Actions/examples/sonarqube) based on your project language. Another example can be found [HERE](https://github.com/telus/unicorn-run-frontend/blob/main/.github/workflows/code-analysis.yaml) which includes linting and generating your test results before performing static code analysis in the same workflow.
