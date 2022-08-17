@@ -90813,7 +90813,7 @@ function main() {
     // Validate inputs to action
     const slackBotToken = coreExports.getInput('slackToken', { required: true });
     const slackCahnnelID = coreExports.getInput('channelID', { required: true });
-    if (!slackBotToken && !slackCahnnelID) {
+    if (!slackBotToken || !slackCahnnelID) {
         throw new Error("Either the slack bot token or the slack channel ID has not been supplied with a proper input value!");
     }
     // Creating the SQinfo object
