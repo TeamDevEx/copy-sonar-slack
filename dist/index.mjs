@@ -90810,6 +90810,12 @@ utilities$1.Utilities = utilities;
 } (dist));
 
 function main() {
+    // Validate inputs to action
+    const slackBotToken = coreExports.getInput('slackToken', { required: true });
+    const slackCahnnelID = coreExports.getInput('channelID', { required: true });
+    if (!slackBotToken && !slackCahnnelID) {
+        throw new Error("Either the slack bot token or the slack channel ID has not been supplied with a proper input value!");
+    }
     // Creating the SQinfo object
     const sq_qg_info = {
         title: context$1.payload.check_run.output.title,
