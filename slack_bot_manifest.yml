@@ -1,10 +1,10 @@
 display_information:
-  name: SonarQube Slack Bot
-  description: Slack Bot used to post SonarQube Quality Gates to Slack Channels
-  background_color: "#b54c7b"
+  name: SonarQube Bot
+  description: Bot used to post SonarQube Quality Gates to Slack Channels
+  background_color: "#b54c71"
 features:
   bot_user:
-    display_name: SonarQube Slack Bot
+    display_name: SonarQube Bot
     always_online: true
 oauth_config:
   scopes:
@@ -16,4 +16,3 @@ settings:
   org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: false
-  
