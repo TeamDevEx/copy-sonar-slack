@@ -2019,10 +2019,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.41":
+"@types/node@npm:*":
   version: 17.0.41
   resolution: "@types/node@npm:17.0.41"
   checksum: ddaf9e7decb487850a9bbfeb670b41c9d35c5b1597c4c4f889419b65042d776e9041ed533c7afc1bac30cad1e9dcfd984085b4a35312efe8ea5eaf0bd36a8191
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^18.7.13":
+  version: 18.7.13
+  resolution: "@types/node@npm:18.7.13"
+  checksum: 45431e7e89ecaf85c7d2c180d801c132a7c59e2f8ad578726b6d71cc74e3267c18f9ccdcad738bc0479790c078f0c79efb0e58da2c6be535c15995dbb19050c9
   languageName: node
   linkType: hard
 
@@ -2504,7 +2511,7 @@ __metadata:
     "@rollup/plugin-node-resolve": ^13.3.0
     "@rollup/plugin-typescript": ^8.3.3
     "@types/jest": ^28.1.1
-    "@types/node": ^17.0.41
+    "@types/node": ^18.7.13
     babel-jest: ^28.1.1
     eslint: ^8.17.0
     jest: ^28.1.1

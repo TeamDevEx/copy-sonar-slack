@@ -90811,11 +90811,11 @@ utilities$1.Utilities = utilities;
 
 function main() {
     // Validate inputs to action
-    // const slackBotToken = core.getInput('slackToken', { required: true });
-    // const slackCahnnelID = core.getInput('channelID', { required: true });
-    // if (!slackBotToken || !slackCahnnelID) {
-    //   throw new Error("Either the slack bot token or the slack channel ID has not been supplied with a proper input value!");
-    // }
+    const slackBotToken = process.env.SLACK_TOKEN ?? "";
+    const slackCahnnelID = process.env.CHANNEL_ID ?? "";
+    if (!slackBotToken || !slackCahnnelID) {
+        throw new Error("Either the slack bot token or the slack channel ID has not been supplied with a proper input value!");
+    }
     // Creating the SQinfo object
     const sq_qg_info = {
         title: context$1.payload.check_run.output.title,

@@ -24,6 +24,9 @@ runs:
       id: sq_slack_msg
       shell: bash
       run: node ${{github.action_path}}/dist/index.mjs
+      env:
+        SLACK_TOKEN: ${{ inputs.slackToken }}
+        CHANNEL_ID: ${{ inputs.channelID }}
     - name: Post to slack
       uses: slackapi/slack-github-action@v1.18.0
       with:
