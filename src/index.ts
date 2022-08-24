@@ -12,11 +12,11 @@ import {
 
 function main() {
   // Validate inputs to action
-  const slackBotToken = core.getInput('slackToken', { required: true });
-  const slackCahnnelID = core.getInput('channelID', { required: true });
-  if (!slackBotToken || !slackCahnnelID) {
-    throw new Error("Either the slack bot token or the slack channel ID has not been supplied with a proper input value!");
-  }
+  // const slackBotToken = core.getInput('slackToken', { required: true });
+  // const slackCahnnelID = core.getInput('channelID', { required: true });
+  // if (!slackBotToken || !slackCahnnelID) {
+  //   throw new Error("Either the slack bot token or the slack channel ID has not been supplied with a proper input value!");
+  // }
 
   // Creating the SQinfo object
   const sq_qg_info: SQinfo = {
