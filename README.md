@@ -19,8 +19,8 @@ Upon a SonarQube scan of your project (done through a workflow, examples given a
 ## How to use this action? :compass:
 
 ### Inputs :inbox_tray:
-- `slackToken`: A token to allow the use of your Slack Bot. This input should be a action secret in your repository (referenced as `${{ secrets.SLACK-BOT-TOKEN-NAME }}`).
-- `channelID`: ID of the Slack channel to post the SonarQube Quality Gate results to.
+- `slackToken`: A token to allow the use of your Slack Bot. You can use the global SonarQube Slack Bot token referenced as `${{ secrets.SONARQUBE_SLACKBOT_TOKEN }}`.
+- `channelID`: ID of the private Slack channel to post the SonarQube Quality Gate results to. You will also need to invite the SonarQube Slack Bot to this private channel by mentioning @SonarQube Bot. 
 
 ### Outputs :outbox_tray:
 - `slack-msg-payload`: A Slack message object (formatted using the slack-block-builder package) containing the results of the Quality Gate.
@@ -43,6 +43,6 @@ jobs:
         - name: Run SonarQube Slack Integration
           uses: telus/cdo-actions-sonarqube-slack-integration@v1
           with:
-            slackToken: ${{ secrets.SLACK_BOT_TOKEN }}
+            slackToken: ${{ secrets.SONARQUBE_SLACKBOT_TOKEN }}
             channelID: '<channelID>'
 ```
